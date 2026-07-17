@@ -2,6 +2,12 @@ name: Setup workspace
 
 description: Setup Node.js, Pnpm, and install dependencies
 
+inputs:
+    install-dependencies:
+        description: Whether to run `pnpm i` after setting up Node.js and Pnpm
+        required: false
+        default: 'true'
+
 runs:
     using: composite
     steps:
@@ -17,5 +23,6 @@ runs:
               node-version-file: 'package.json'
 
         - name: Install dependencies
+          if: inputs.install-dependencies == 'true'
           shell: bash
           run: pnpm i
