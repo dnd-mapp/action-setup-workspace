@@ -1,5 +1,10 @@
 gitignore: true
 config:
     default: true
+
     # Line length is intentionally unconstrained for prose, matching .editorconfig's max_line_length = off for *.md.
     MD013: false
+
+    # Keep a Changelog reuses headings like "### Added" under every version section; only flag duplicates within the same parent.
+    MD024:
+        siblings_only: true

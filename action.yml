@@ -7,10 +7,24 @@ inputs:
         description: Whether to run `pnpm i` after setting up Node.js and Pnpm
         required: false
         default: 'true'
+    node-auth-token:
+        description: >
+            A token with `read:packages` access, used to authenticate `pnpm i` against the
+            `@dnd-mapp` scope on GitHub Packages. Required whenever `install-dependencies` is
+            `'true'`.
+        required: false
+        default: ''
 
 runs:
     using: composite
     steps:
+        - name: Validate inputs
+          if: inputs.install-dependencies == 'true' && inputs.node-auth-token == ''
+          shell: bash
+          run: |
+              echo "::error::node-auth-token is required when install-dependencies is 'true' (needed to authenticate 'pnpm i' against the @dnd-mapp scope on GitHub Packages)."
+              exit 1
+
         - name: Setup Pnpm
           uses: pnpm/action-setup@0ebf47130e4866e96fce0953f49152a61190b271 # v6.0.9
 
@@ -20,9 +34,12 @@ runs:
               cache-dependency-path: 'pnpm-lock.yaml'
               cache: 'pnpm'
               scope: '@dnd-mapp'
+              registry-url: 'https://npm.pkg.github.com'
               node-version-file: 'package.json'
 
         - name: Install dependencies
           if: inputs.install-dependencies == 'true'
           shell: bash
+          env:
+              NODE_AUTH_TOKEN: ${{ inputs.node-auth-token }}
           run: pnpm i

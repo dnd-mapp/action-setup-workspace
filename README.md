@@ -12,15 +12,20 @@ A composite GitHub Action that sets up the `dnd-mapp` org's standard Node.js/Pnp
 steps:
     - name: Setup workspace
       uses: dnd-mapp/action-setup-workspace@<SHA> # vX.Y.Z
+      with:
+          node-auth-token: ${{ secrets.GITHUB_TOKEN }}
 ```
 
 ### Inputs
 
-| Name                   | Description                                               | Default  |
-|------------------------|-----------------------------------------------------------|----------|
-| `install-dependencies` | Whether to run `pnpm i` after setting up Node.js and Pnpm | `'true'` |
+| Name                   | Description                                                                                                         | Default  |
+|------------------------|---------------------------------------------------------------------------------------------------------------------|----------|
+| `install-dependencies` | Whether to run `pnpm i` after setting up Node.js and Pnpm                                                           | `'true'` |
+| `node-auth-token`      | A token with `read:packages` access, used to authenticate `pnpm i` against the `@dnd-mapp` scope on GitHub Packages | `''`     |
 
 Set `install-dependencies: 'false'` to get the Pnpm/Node.js toolchain set up without installing dependencies.
+
+`node-auth-token` is required whenever `install-dependencies` is `'true'`; the action fails fast with a clear error if it's missing. A workflow's own `${{ secrets.GITHUB_TOKEN }}` is sufficient as long as the job grants `permissions: packages: read`.
 
 Pin to a commit SHA (not a floating tag) as shown above; the `# vX.Y.Z` comment is just a human-readable label of which release that SHA corresponds to. See [CHANGELOG.md](CHANGELOG.md) for release history, and the git tags for available versions (each release is tagged `vX.Y.Z`, with the `v1` tag floating to the latest `v1.x.y`).
 
