@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [1.0.0] - 2026-07-17
+
 ### Added
 
 - Composite action extracted from `dnd-mapp/project-template`'s `.github/actions/setup-workspace`: sets up Pnpm and Node.js, and installs dependencies.
