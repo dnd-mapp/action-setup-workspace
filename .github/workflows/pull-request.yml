@@ -5,6 +5,7 @@ on:
 
 permissions:
     contents: read
+    packages: read
 
 jobs:
     ci:
@@ -16,16 +17,10 @@ jobs:
               with:
                   fetch-depth: 0
 
-            - name: Setup workspace
-              uses: ./
-
-            - name: Check formatting
-              shell: bash
-              run: pnpm format-check
-
-            - name: Lint markdown
-              shell: bash
-              run: pnpm lint-md
+            - name: Continuous Integration
+              uses: ./.github/actions/ci
+              with:
+                  node-auth-token: ${{ secrets.GITHUB_TOKEN }}
 
             - name: Lint commit messages
               shell: bash

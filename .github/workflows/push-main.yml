@@ -7,6 +7,7 @@ on:
 
 permissions:
     contents: read
+    packages: read
 
 jobs:
     ci:
@@ -16,13 +17,7 @@ jobs:
             - name: Checkout repository
               uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
 
-            - name: Setup workspace
-              uses: ./
-
-            - name: Check formatting
-              shell: bash
-              run: pnpm format-check
-
-            - name: Lint markdown
-              shell: bash
-              run: pnpm lint-md
+            - name: Continuous Integration
+              uses: ./.github/actions/ci
+              with:
+                  node-auth-token: ${{ secrets.GITHUB_TOKEN }}
