@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+### Added
+
+- `node-auth-token` input, forwarded to `NODE_AUTH_TOKEN` and paired with a new `registry-url` on the `setup-node` step, so consuming repos can authenticate `pnpm i` against the `@dnd-mapp` scope on GitHub Packages. Required whenever `install-dependencies` is `'true'`; the action fails fast with a clear error if it's missing.
+
 ## [1.0.0] - 2026-07-17
 
 ### Added

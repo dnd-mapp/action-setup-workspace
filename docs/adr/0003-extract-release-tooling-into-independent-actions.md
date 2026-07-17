@@ -1,0 +1,16 @@
+# Extract release tooling into three independent action repos
+
+This repo's and [`dnd-mapp/tsconfig`](https://github.com/dnd-mapp/tsconfig)'s `release.yml` duplicate tag-validation, changelog-section extraction, and GitHub Release creation logic, and have already diverged (tsconfig's `validate` skips the changelog-section check this repo has; tsconfig attaches a build tarball to its release, this repo attaches nothing). We're extracting that logic into three separate, independently versioned action repos (`dnd-mapp/action-validate-release-tag`, `dnd-mapp/action-extract-release-notes`, `dnd-mapp/action-create-github-release`), purely to DRY these two known repos, not as a general-purpose release toolkit.
+
+None of the three depends on another at runtime or at build time; each consuming repo's own `release.yml` calls whichever of the three it needs. This also resolves the validate-time divergence without baking an opinion into any single action: whether `extract-release-notes` gets called during `validate` (fail-fast) or only during release-notes preparation is the calling workflow's choice, not the action's.
+
+Each new repo follows this repo's existing release convention ([ADR 0001](0001-manual-tags-with-floating-major-version.md), [ADR 0002](0002-automated-release-and-discussion-creation.md)): signed `vX.Y.Z` tags, a floating `v1`, and ungated automated release creation, self-hosted via `uses: ./` the same way this repo already releases itself. That avoids any bootstrapping circularity, and lets the three repos be built and released in the order `action-validate-release-tag` → `action-extract-release-notes` → `action-create-github-release`, since the last one is the only one that could optionally consume the other two for its own release.
+
+All three actions are zero-config for the values both current repos already agree on (base branch `main`, `vX.Y.Z` tag pattern, `package.json`'s `version` field, `.github/release-notes.md` as the notes path, `"Announcements"` as the discussion category). `action-create-github-release` takes one optional input, empty by default, for extra release assets to attach: the one point where the two consumers genuinely differ.
+
+This ADR covers standing up the three new repos only. Migrating `action-setup-workspace`'s and tsconfig's `release.yml` to consume them, and deleting their now-redundant `scripts/*.mjs`, is separate follow-up work per repo; nothing in this repo's release process changes until that follow-up lands.
+
+## Considered options
+
+- **One repo exposing all three as composite actions from subdirectories** (a monorepo of related actions). Would have meant less repo-management overhead (one README, one CI, one release process to maintain instead of three), at the cost of coupling all three actions' versioning together. Rejected in favor of three independently versioned repos.
+- **Two repos**, bundling the changelog-section check into `validate-release-tag` and notes-extraction into `create-github-release`. Rejected: tag-validation (git/`package.json` mechanics) and changelog-parsing are different concerns that happen to both currently run in the `validate` job, and bundling them would have forced every consumer to either take or leave the changelog check as part of tag validation, rather than choosing per-repo which job calls `extract-release-notes`.
