@@ -1,7 +1,6 @@
 # Development
 
-How to work on this repository day-to-day. For how to propose a change, see the org-wide
-[CONTRIBUTING.md](https://github.com/dnd-mapp/.github/blob/main/CONTRIBUTING.md).
+How to work on this repository day-to-day. For how to propose a change, see the org-wide [CONTRIBUTING.md](https://github.com/dnd-mapp/.github/blob/main/CONTRIBUTING.md).
 
 ## Requirements
 
@@ -14,11 +13,21 @@ How to work on this repository day-to-day. For how to propose a change, see the 
 pnpm i
 ```
 
-This also installs the [Husky](https://typicode.github.io/husky) git hooks: `lint-staged` runs Prettier/markdownlint
-on staged files before each commit, and `commitlint` checks each commit message follows
-[Conventional Commits](https://www.conventionalcommits.org).
+This also installs the [Husky](https://typicode.github.io/husky) git hooks: `lint-staged` runs Prettier/markdownlint on staged files before each commit, and `commitlint` checks each commit message follows [Conventional Commits](https://www.conventionalcommits.org).
 
 ## Common tasks
 
 - `pnpm format` / `pnpm format-check` (format, or check formatting, of the whole repo with Prettier)
 - `pnpm lint-md` (lint all Markdown files)
+
+## Releasing
+
+Tagging is manual (see [ADR 0001](docs/adr/0001-manual-tags-with-floating-major-version.md)). After merging to `main`:
+
+```shell
+git tag vX.Y.Z
+git tag -f v1        # move the floating major tag, only for v1.x.y releases
+git push origin vX.Y.Z v1 --force
+```
+
+Update [CHANGELOG.md](CHANGELOG.md) with the release notes before tagging.

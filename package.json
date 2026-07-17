@@ -1,16 +1,16 @@
 {
-  "name": "project-name",
-  "description": "TODO: describe this project",
+  "name": "action-setup-workspace",
+  "description": "Reusable composite GitHub Action to set up the dnd-mapp Node.js/Pnpm workspace",
   "version": "0.0.0",
   "private": true,
   "license": "MIT",
   "author": "NoNamer777",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dnd-mapp/project-name.git"
+    "url": "git+https://github.com/dnd-mapp/action-setup-workspace.git"
   },
-  "homepage": "https://github.com/dnd-mapp/project-name#readme",
-  "bugs": "https://github.com/dnd-mapp/project-name/issues",
+  "homepage": "https://github.com/dnd-mapp/action-setup-workspace#readme",
+  "bugs": "https://github.com/dnd-mapp/action-setup-workspace/issues",
   "scripts": {
     "prepare": "husky || true",
     "lint-md": "markdownlint-cli2 \"**/*.md\"",
