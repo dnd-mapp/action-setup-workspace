@@ -22,12 +22,6 @@ This also installs the [Husky](https://typicode.github.io/husky) git hooks: `lin
 
 ## Releasing
 
-Tagging is manual (see [ADR 0001](docs/adr/0001-manual-tags-with-floating-major-version.md)). After merging to `main`:
+Tagging is manual (see [ADR 0001](docs/adr/0001-manual-tags-with-floating-major-version.md)); pushing a `vX.Y.Z` tag on `main` triggers an ungated GitHub Actions workflow that creates a GitHub Release and mirroring Announcements Discussion from the matching changelog section (see [ADR 0002](docs/adr/0002-automated-release-and-discussion-creation.md)).
 
-```shell
-git tag vX.Y.Z
-git tag -f v1        # move the floating major tag, only for v1.x.y releases
-git push origin vX.Y.Z v1 --force
-```
-
-Update [CHANGELOG.md](CHANGELOG.md) with the release notes before tagging.
+See [Releasing a new version](docs/guides/dev/releasing.md) for the full, step-by-step procedure.
