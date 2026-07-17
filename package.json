@@ -1,7 +1,7 @@
 {
   "name": "action-setup-workspace",
   "description": "Reusable composite GitHub Action to set up the dnd-mapp Node.js/Pnpm workspace",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "private": true,
   "license": "MIT",
   "author": "NoNamer777",
