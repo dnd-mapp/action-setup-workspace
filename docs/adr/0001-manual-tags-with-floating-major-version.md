@@ -9,4 +9,4 @@ Both tags must be signed, the same way commits to `main` already are. This is en
 Automating this (e.g. `semantic-release` off Conventional Commits, which this repo already enforces via commitlint) was considered and rejected for now: this repo changes rarely and a human is already reviewing every PR, so the extra tooling isn't earning its keep yet. Revisit if release cadence increases.
 
 > **Note:**
-> [ADR 0002](0002-automated-release-and-discussion-creation.md) supersedes the rejection above for GitHub Release/Discussion creation specifically: that piece is now automated, and runs ungated on tag push. The rest of this ADR — manual immutable tags, and the manually-moved floating `v1` — still holds.
+> [ADR 0002](0002-automated-release-and-discussion-creation.md) supersedes the rejection above for GitHub Release/Discussion creation specifically: that piece is now automated, and runs ungated on tag push. The rest of this ADR (manual immutable tags, and the manually-moved floating `v1`) still holds.
