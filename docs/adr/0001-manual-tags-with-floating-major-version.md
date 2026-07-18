@@ -8,5 +8,5 @@ Both tags are signed, enforced by two tag-target repository rulesets rather than
 
 Automating tag-cutting (e.g. `semantic-release` off Conventional Commits, which this repo already enforces via commitlint) was considered and rejected for now: this repo changes rarely and a human is already reviewing every PR, so the extra tooling isn't earning its keep yet. Revisit if release cadence increases.
 
-> **Note:**
+> [!NOTE]
 > [ADR 0002](0002-automated-release-and-discussion-creation.md) covers this repo's release-creation automation (see its own note for how that's evolved). The rest of this ADR (manual immutable tags, and the manually-moved floating `v1`) still holds.
