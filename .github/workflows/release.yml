@@ -29,18 +29,10 @@ jobs:
               with:
                   write-file: 'false'
 
-            - name: Setup workspace
-              uses: ./
+            - name: Run CI checks
+              uses: ./.github/actions/ci
               with:
                   node-auth-token: ${{ secrets.GITHUB_TOKEN }}
-
-            - name: Check formatting
-              shell: bash
-              run: pnpm format-check
-
-            - name: Lint markdown
-              shell: bash
-              run: pnpm lint-md
 
     create-release:
         name: Create GitHub release
