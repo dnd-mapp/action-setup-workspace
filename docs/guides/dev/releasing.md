@@ -1,6 +1,6 @@
 # Releasing a new version
 
-This repo has no automated version-bumping tool. You decide the version and write the changelog entry yourself, in a normal PR. Pushing a release tag triggers an automated workflow that creates the GitHub Release and its mirroring Announcements Discussion; see [ADR 0002](../../adr/0002-automated-release-and-discussion-creation.md) for why that part is automated and ungated, and [ADR 0001](../../adr/0001-manual-tags-with-floating-major-version.md) for why tagging itself stays manual.
+This repo has no automated version-bumping tool. You decide the version and write the changelog entry yourself, in a normal PR. Pushing a release tag triggers an automated workflow that creates the GitHub Release and its mirroring Announcements Discussion, gated behind approval from a required reviewer on the `release` GitHub Environment (see [`.github` ADR 0003](https://github.com/dnd-mapp/.github/blob/main/docs/adr/0003-gate-release-creation-behind-required-reviewer-environment.md) for why); see [ADR 0002](../../adr/0002-automated-release-and-discussion-creation.md) for why release/discussion creation is automated at all, and [ADR 0001](../../adr/0001-manual-tags-with-floating-major-version.md) for why tagging itself stays manual.
 
 ## 1. Bump the version and changelog
 
@@ -36,7 +36,7 @@ Pushing a tag that fails any of the first four is caught by the `validate` job i
 
 ## 3. Release and Discussion creation
 
-Once `validate` passes, the `create-release` job runs automatically, with no approval gate (see [ADR 0002](../../adr/0002-automated-release-and-discussion-creation.md) for why). It:
+Once `validate` passes, the `create-release` job waits for approval from a required reviewer on the `release` GitHub Environment (see [`.github` ADR 0003](https://github.com/dnd-mapp/.github/blob/main/docs/adr/0003-gate-release-creation-behind-required-reviewer-environment.md)). Once approved, it:
 
 1. Extracts the matching section of `CHANGELOG.md`.
 2. Creates the GitHub Release for the tag using that section as its notes, visible immediately, and starts a mirroring **Announcements** Discussion.
@@ -59,4 +59,5 @@ Signing here too is enforced by the repo's "Floating major tag" ruleset (see [AD
 - **`validate` fails with a version mismatch**: the tag doesn't match `package.json`'s `version` at the tagged commit. Fix the version, delete the tag, retag, and re-push.
 - **`validate` fails the main-ancestry check**: the tagged commit isn't reachable from `main`. Make sure you tagged a commit that's actually been merged.
 - **`validate` fails the changelog check**: `CHANGELOG.md` has no `## [X.Y.Z] - YYYY-MM-DD` heading matching the tag. Fix the heading in a follow-up PR, then delete, retag, and re-push.
-- **The `create-release` job never seems to start**: check that `validate` actually passed. There's no environment or tag-rule gate here, so if the workflow didn't trigger at all, check that the pushed tag matches `release.yml`'s `on.push.tags` pattern.
+- **The `create-release` job is pending**: it's waiting on approval from a required reviewer on the `release` GitHub Environment. Check the run's summary page, or the repo's Environments tab, to see or action the pending approval.
+- **The `create-release` job never even appears**: check that `validate` actually passed, and that the pushed tag matches `release.yml`'s `on.push.tags` pattern (if it doesn't, the workflow never triggers at all).
