@@ -22,6 +22,6 @@ This also installs the [Husky](https://typicode.github.io/husky) git hooks: `lin
 
 ## Releasing
 
-Tagging is manual (see [ADR 0001](docs/adr/0001-manual-tags-with-floating-major-version.md)); pushing a `vX.Y.Z` tag on `main` triggers an ungated GitHub Actions workflow that creates a GitHub Release and mirroring Announcements Discussion from the matching changelog section (see [ADR 0002](docs/adr/0002-automated-release-and-discussion-creation.md)).
+Tagging is manual (see [ADR 0001](docs/adr/0001-manual-tags-with-floating-major-version.md)); pushing a `vX.Y.Z` tag on `main` triggers a GitHub Actions workflow that creates a GitHub Release and mirroring Announcements Discussion from the matching changelog section (see [ADR 0002](docs/adr/0002-automated-release-and-discussion-creation.md)), gated behind approval from a required reviewer on the `release` GitHub Environment (see [`.github` ADR 0003](https://github.com/dnd-mapp/.github/blob/main/docs/adr/0003-gate-release-creation-behind-required-reviewer-environment.md)).
 
 See [Releasing a new version](docs/guides/dev/releasing.md) for the full, step-by-step procedure.
